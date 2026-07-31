@@ -1,1151 +1,1184 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCP-2741-L-RU | Фонд SCP</title>
-    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Roboto+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* ——— Backgrounds ——— */
-            --bg-page:        #121214;
-            --bg-card:        #1a1a1e;
-            --bg-card-hover:  #1f1f24;
-            --bg-elevated:    #222228;
-            --bg-terminal:    #0d0d10;
-
-            /* ——— Text ——— */
-            --text-primary:   #e2e2e8;
-            --text-secondary: #a0a0ac;
-            --text-muted:     #6e6e7a;
-            --text-heading:   #f0f0f5;
-
-            /* ——— Accents ——— */
-            --accent-red:     #c0392b;
-            --accent-red-dim: #8b2a1f;
-            --accent-amber:   #d4a017;
-            --accent-green:   #27ae60;
-            --accent-blue:    #4a90d9;
-            --accent-euclid:  #d4892a;
-
-            /* ——— Borders ——— */
-            --border-subtle:  #2a2a32;
-            --border-medium:  #353540;
-            --border-strong:  #40404c;
-
-            /* ——— Spacing scale ——— */
-            --space-xs:  4px;
-            --space-sm:  8px;
-            --space-md:  16px;
-            --space-lg:  24px;
-            --space-xl:  32px;
-            --space-2xl: 48px;
-
-            /* ——— Typography ——— */
-            --font-body:    'PT Serif', Georgia, 'Times New Roman', serif;
-            --font-ui:      'Inter', system-ui, -apple-system, sans-serif;
-            --font-mono:    'Roboto Mono', 'SF Mono', 'Fira Code', monospace;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--bg-page);
-            color: var(--text-primary);
-            line-height: 1.75;
-            font-size: 17px;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* ============================================================
-           HEADER
-           ============================================================ */
-        .scp-header {
-            background: var(--bg-terminal);
-            border-bottom: 2px solid var(--accent-red-dim);
-            padding: 0;
-            position: relative;
-        }
-
-        .header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: var(--space-lg) var(--space-xl);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: var(--space-md);
-        }
-
-        .scp-logo-text h1 {
-            font-family: var(--font-mono);
-            font-size: 22px;
-            font-weight: 500;
-            color: var(--text-heading);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
-
-        .scp-logo-text .subtitle {
-            font-family: var(--font-ui);
-            font-size: 12px;
-            color: var(--text-muted);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-top: var(--space-xs);
-        }
-
-        .scp-nav {
-            display: flex;
-            gap: var(--space-lg);
-            flex-wrap: wrap;
-        }
-
-        .scp-nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: color 0.25s ease;
-            position: relative;
-        }
-
-        .scp-nav a:hover {
-            color: var(--accent-red);
-        }
-
-        /* ============================================================
-           SECURITY BANNER
-           ============================================================ */
-        .security-banner {
-            background: var(--accent-red-dim);
-            padding: 10px;
-            text-align: center;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 500;
-            color: rgba(255,255,255,0.85);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-bottom: 1px solid var(--accent-red);
-        }
-
-        .security-banner .blink {
-            animation: blink 1.2s step-end infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* ============================================================
-           MAIN CONTAINER
-           ============================================================ */
-        .main-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: var(--space-2xl) var(--space-xl);
-        }
-
-        /* ============================================================
-           SCP HEADER BLOCK (Item #, Object Class)
-           ============================================================ */
-        .scp-header-block {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-left: 4px solid var(--accent-euclid);
-            padding: var(--space-xl) var(--space-xl);
-            margin-bottom: var(--space-xl);
-            position: relative;
-            border-radius: 4px;
-        }
-
-        .scp-item-number {
-            font-family: var(--font-mono);
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-heading);
-            margin-bottom: var(--space-md);
-            letter-spacing: 2px;
-        }
-
-        .scp-object-class {
-            font-family: var(--font-mono);
-            font-size: 14px;
-            color: var(--accent-euclid);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 600;
-        }
-
-        .scp-object-class::before {
-            content: 'Класс объекта: ';
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        /* ============================================================
-           SECTION HEADERS (Standard SCP format)
-           ============================================================ */
-        .scp-section-title {
-            font-family: var(--font-mono);
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-heading);
-            font-weight: 600;
-            margin: var(--space-2xl) 0 var(--space-lg) 0;
-            padding-bottom: var(--space-sm);
-            border-bottom: 2px solid var(--accent-euclid);
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-        }
-
-        .scp-section-title::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: var(--accent-euclid);
-            border-radius: 1px;
-        }
-
-        .scp-section-body {
-            margin-bottom: var(--space-xl);
-        }
-
-        .scp-section-body p {
-            margin-bottom: var(--space-md);
-            text-align: justify;
-            color: var(--text-primary);
-        }
-
-        .scp-section-body p:last-child {
-            margin-bottom: 0;
-        }
-
-        .scp-section-body strong {
-            color: var(--text-heading);
-            font-weight: 700;
-        }
-
-        .scp-section-body ul {
-            margin: var(--space-md) 0 var(--space-md) var(--space-lg);
-            padding-left: var(--space-md);
-        }
-
-        .scp-section-body li {
-            margin-bottom: var(--space-sm);
-            color: var(--text-primary);
-        }
-
-        /* ============================================================
-           COLLAPSIBLE ADDENDA
-           ============================================================ */
-        .addendum {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            margin-bottom: var(--space-lg);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .addendum-header {
-            background: var(--bg-elevated);
-            padding: var(--space-md) var(--space-lg);
-            border-bottom: 1px solid var(--border-subtle);
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            cursor: pointer;
-            transition: background 0.2s ease;
-            user-select: none;
-        }
-
-        .addendum-header:hover {
-            background: #2a2a32;
-        }
-
-        .addendum-header .icon {
-            width: 26px;
-            height: 26px;
-            background: var(--accent-euclid);
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: #fff;
-            flex-shrink: 0;
-            font-weight: 500;
-        }
-
-        .addendum-header h3 {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-heading);
-            font-weight: 500;
-        }
-
-        .addendum-header .toggle {
-            margin-left: auto;
-            font-size: 14px;
-            color: var(--text-muted);
-            transition: transform 0.25s ease;
-            font-family: var(--font-mono);
-        }
-
-        .addendum-header.collapsed .toggle {
-            transform: rotate(-90deg);
-        }
-
-        .addendum-body {
-            padding: var(--space-xl);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .addendum-body.collapsed {
-            display: none;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-4px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ============================================================
-           REDACTED / EXPUNGED
-           ============================================================ */
-        .redacted {
-            background: #0a0a0c;
-            color: transparent;
-            padding: 1px 5px;
-            border-radius: 2px;
-            cursor: help;
-            transition: all 0.2s ease;
-            border: 1px solid #1a1a1e;
-        }
-
-        .redacted:hover {
-            background: var(--accent-red-dim);
-            color: rgba(255,255,255,0.9);
-            border-color: var(--accent-red);
-        }
-
-        .data-expunged {
-            background: repeating-linear-gradient(
-                90deg,
-                #0a0a0c,
-                #0a0a0c 4px,
-                #141418 4px,
-                #141418 8px
-            );
-            color: var(--text-muted);
-            padding: 2px 8px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            border-radius: 2px;
-            letter-spacing: 1px;
-        }
-
-        /* ============================================================
-           WARNING BOX
-           ============================================================ */
-        .warning-box {
-            background: rgba(192, 57, 43, 0.06);
-            border: 1px solid rgba(192, 57, 43, 0.25);
-            border-left: 3px solid var(--accent-red);
-            padding: var(--space-lg) var(--space-xl);
-            margin: var(--space-lg) 0;
-            position: relative;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .warning-box::before {
-            content: '!';
-            position: absolute;
-            top: -10px;
-            left: 14px;
-            background: var(--accent-red-dim);
-            color: #fff;
-            font-size: 12px;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-family: var(--font-mono);
-            font-weight: 700;
-        }
-
-        .warning-box strong {
-            color: var(--accent-red);
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 11px;
-        }
-
-        /* ============================================================
-           NOTICE BOX
-           ============================================================ */
-        .notice-box {
-            background: rgba(74, 144, 217, 0.04);
-            border: 1px solid rgba(74, 144, 217, 0.18);
-            border-left: 3px solid var(--accent-blue);
-            padding: var(--space-lg) var(--space-xl);
-            margin: var(--space-lg) 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .notice-title {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--accent-blue);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: var(--space-md);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .notice-title::before {
-            content: '*';
-        }
-
-        /* ============================================================
-           QUOTE BLOCK
-           ============================================================ */
-        .quote-block {
-            background: rgba(255, 255, 255, 0.025);
-            border-left: 3px solid var(--border-medium);
-            padding: var(--space-lg) var(--space-xl);
-            margin: var(--space-lg) 0;
-            font-style: italic;
-            position: relative;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .quote-block::before {
-            content: '"';
-            position: absolute;
-            top: 4px;
-            left: 12px;
-            font-size: 36px;
-            color: var(--border-medium);
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-
-        .quote-author {
-            margin-top: var(--space-md);
-            font-style: normal;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .quote-author::before {
-            content: '— ';
-        }
-
-        /* ============================================================
-           INCIDENT TABLE
-           ============================================================ */
-        .incident-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: var(--space-lg) 0;
-            font-size: 14px;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .incident-table th {
-            background: var(--bg-elevated);
-            font-family: var(--font-mono);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            padding: var(--space-md) var(--space-lg);
-            text-align: left;
-            border-bottom: 2px solid var(--border-medium);
-            font-weight: 500;
-        }
-
-        .incident-table td {
-            padding: var(--space-md) var(--space-lg);
-            border-bottom: 1px solid var(--border-subtle);
-            vertical-align: top;
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-
-        .incident-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .incident-table tr:hover td {
-            background: rgba(255, 255, 255, 0.015);
-        }
-
-        .incident-tag {
-            display: inline-block;
-            padding: 3px 10px;
-            font-family: var(--font-mono);
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 2px;
-            margin-right: 4px;
-            font-weight: 500;
-        }
-
-        .tag-critical { background: rgba(231, 76, 60, 0.12); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.3); }
-        .tag-major    { background: rgba(230, 126, 34, 0.12); color: #e67e22; border: 1px solid rgba(230, 126, 34, 0.3); }
-        .tag-minor    { background: rgba(46, 204, 113, 0.10); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.25); }
-
-        /* ============================================================
-           TERMINAL
-           ============================================================ */
-        .terminal-container {
-            background: var(--bg-terminal);
-            border: 1px solid var(--border-subtle);
-            border-radius: 4px;
-            margin: var(--space-lg) 0;
-            overflow: hidden;
-        }
-
-        .terminal-header {
-            background: var(--bg-elevated);
-            padding: 8px 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .terminal-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .terminal-dot.red    { background: var(--accent-red); }
-        .terminal-dot.yellow { background: var(--accent-amber); }
-        .terminal-dot.green  { background: var(--accent-green); }
-
-        .terminal-title {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            color: var(--text-muted);
-            margin-left: 8px;
-            letter-spacing: 1px;
-        }
-
-        .terminal-body {
-            padding: var(--space-md) var(--space-lg);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            line-height: 1.8;
-            color: var(--accent-green);
-        }
-
-        .terminal-line {
-            margin: 4px 0;
-        }
-
-        .terminal-line .prompt {
-            color: var(--accent-red);
-        }
-
-        /* ============================================================
-           INFO GRID
-           ============================================================ */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: var(--space-md);
-            margin-bottom: var(--space-xl);
-        }
-
-        .info-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            padding: var(--space-md) var(--space-lg);
-            border-radius: 4px;
-            transition: background 0.2s ease, border-color 0.2s ease;
-        }
-
-        .info-box:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--border-medium);
-        }
-
-        .info-box .label {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .info-box .label::before {
-            content: '>';
-            color: var(--accent-euclid);
-            font-size: 9px;
-        }
-
-        .info-box .value {
-            font-size: 15px;
-            color: var(--text-primary);
-            line-height: 1.5;
-        }
-
-        .info-box .value.highlight {
-            color: var(--accent-green);
-            font-weight: 600;
-            font-family: var(--font-ui);
-        }
-
-        /* ============================================================
-           CLEARANCE BANNER
-           ============================================================ */
-        .clearance-banner {
-            background: linear-gradient(90deg, var(--accent-red-dim), #5c1a14, var(--accent-red-dim));
-            background-size: 200% 100%;
-            animation: gradient-shift 4s ease infinite;
-            padding: 10px;
-            text-align: center;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.9);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: var(--space-lg);
-            border: 1px solid rgba(192, 57, 43, 0.4);
-            border-radius: 4px;
-        }
-
-        @keyframes gradient-shift {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* ============================================================
-           FOOTER
-           ============================================================ */
-        .scp-footer {
-            background: var(--bg-card);
-            border-top: 1px solid var(--border-subtle);
-            padding: var(--space-xl);
-            text-align: center;
-            margin-top: var(--space-2xl);
-        }
-
-        .scp-footer .footer-line {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-            line-height: 1.6;
-        }
-
-        .scp-footer .footer-classified {
-            color: var(--accent-red);
-            font-weight: 500;
-            margin-top: var(--space-md);
-            padding-top: var(--space-md);
-            border-top: 1px solid var(--border-subtle);
-        }
-
-        /* ============================================================
-           SCROLLBAR
-           ============================================================ */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-page);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-medium);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
-        }
-
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
-        @media (max-width: 768px) {
-            .header-inner {
-                flex-direction: column;
-                text-align: center;
-                padding: var(--space-md);
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SCP-2741-RU | Фонд SCP</title>
+        <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Roboto+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                /* --- Backgrounds --- */
+                --bg-page:        #121214;
+                --bg-card:        #1a1a1e;
+                --bg-card-hover:  #1f1f24;
+                --bg-elevated:    #222228;
+                --bg-terminal:    #0d0d10;
+
+                /* --- Text --- */
+                --text-primary:   #e2e2e8;
+                --text-secondary: #a0a0ac;
+                --text-muted:     #6e6e7a;
+                --text-heading:   #f0f0f5;
+
+                /* --- Accents --- */
+                --accent-red:     #c0392b;
+                --accent-red-dim: #8b2a1f;
+                --accent-amber:   #d4a017;
+                --accent-green:   #27ae60;
+                --accent-blue:    #4a90d9;
+                --accent-euclid:  #d4892a;
+
+                /* --- Borders --- */
+                --border-subtle:  #2a2a32;
+                --border-medium:  #353540;
+                --border-strong:  #40404c;
+
+                /* --- Spacing scale --- */
+                --space-xs:  4px;
+                --space-sm:  8px;
+                --space-md:  16px;
+                --space-lg:  24px;
+                --space-xl:  32px;
+                --space-2xl: 48px;
+
+                /* --- Typography --- */
+                --font-body:    'PT Serif', Georgia, 'Times New Roman', serif;
+                --font-ui:      'Inter', system-ui, -apple-system, sans-serif;
+                --font-mono:    'Roboto Mono', 'SF Mono', 'Fira Code', monospace;
             }
 
-            .scp-nav {
-                justify-content: center;
-                gap: var(--space-md);
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
 
-            .scp-item-number {
-                font-size: 22px;
-            }
-
-            .main-container {
-                padding: var(--space-lg) var(--space-md);
-            }
-
-            .scp-section-body,
-            .addendum-body {
-                padding: var(--space-md);
+            html {
+                scroll-behavior: smooth;
             }
 
             body {
-                font-size: 16px;
+                font-family: var(--font-body);
+                background-color: var(--bg-page);
+                color: var(--text-primary);
+                line-height: 1.75;
+                font-size: 17px;
+                min-height: 100vh;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
             }
-        }
 
-        /* ============================================================
-           UTILITY
-           ============================================================ */
-        .text-accent { color: var(--accent-euclid); font-weight: 600; }
+            /* ============================================================
+            HEADER
+            ============================================================ */
+            .scp-header {
+                background: var(--bg-terminal);
+                border-bottom: 2px solid var(--accent-red-dim);
+                padding: 0;
+                position: relative;
+            }
 
-                /* ============================================================
-           OBJECT HEADER (for personnel file format)
-           ============================================================ */
-        .object-header {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-left: 4px solid var(--accent-euclid);
-            padding: var(--space-xl) var(--space-xl);
-            margin-bottom: var(--space-xl);
-            border-radius: 4px;
-            text-align: center;
-        }
+            .header-inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: var(--space-lg) var(--space-xl);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: var(--space-md);
+            }
 
-        .object-number {
-            font-family: var(--font-mono);
-            font-size: 13px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: var(--space-sm);
-        }
+            .scp-logo-text h1 {
+                font-family: var(--font-mono);
+                font-size: 22px;
+                font-weight: 500;
+                color: var(--text-heading);
+                letter-spacing: 4px;
+                text-transform: uppercase;
+            }
 
-        .object-name {
-            font-family: var(--font-ui);
-            font-size: 24px;
-            color: var(--text-heading);
-            font-weight: 600;
-        }
+            .scp-logo-text .subtitle {
+                font-family: var(--font-ui);
+                font-size: 12px;
+                color: var(--text-muted);
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                margin-top: var(--space-xs);
+            }
 
-        /* ============================================================
-           COLLAPSIBLE SECTIONS
-           ============================================================ */
-        .section {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            margin-bottom: var(--space-lg);
-            border-radius: 4px;
-            overflow: hidden;
-        }
+            .scp-nav {
+                display: flex;
+                gap: var(--space-lg);
+                flex-wrap: wrap;
+            }
 
-        .section-header {
-            background: var(--bg-elevated);
-            padding: var(--space-md) var(--space-lg);
-            border-bottom: 1px solid var(--border-subtle);
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            cursor: pointer;
-            transition: background 0.2s ease;
-            user-select: none;
-        }
+            .scp-nav a {
+                color: var(--text-muted);
+                text-decoration: none;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                transition: color 0.25s ease;
+                position: relative;
+            }
 
-        .section-header:hover {
-            background: #2a2a32;
-        }
+            .scp-nav a:hover {
+                color: var(--accent-red);
+            }
 
-        .section-header .icon {
-            width: 26px;
-            height: 26px;
-            background: var(--accent-euclid);
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: #fff;
-            flex-shrink: 0;
-            font-weight: 500;
-        }
+            /* ============================================================
+            SECURITY BANNER
+            ============================================================ */
+            .security-banner {
+                background: var(--accent-red-dim);
+                padding: 10px;
+                text-align: center;
+                font-family: var(--font-mono);
+                font-size: 12px;
+                font-weight: 500;
+                color: rgba(255,255,255,0.85);
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                border-bottom: 1px solid var(--accent-red);
+            }
 
-        .section-header h2 {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-heading);
-            font-weight: 500;
-        }
+            .security-banner .blink {
+                animation: blink 1.2s step-end infinite;
+            }
 
-        .section-header .toggle {
-            margin-left: auto;
-            font-size: 14px;
-            color: var(--text-muted);
-            transition: transform 0.25s ease;
-            font-family: var(--font-mono);
-        }
+            @keyframes blink {
+                50% { opacity: 0; }
+            }
 
-        .section-header.collapsed .toggle {
-            transform: rotate(-90deg);
-        }
+            /* ============================================================
+            MAIN CONTAINER
+            ============================================================ */
+            .main-container {
+                max-width: 900px;
+                margin: 0 auto;
+                padding: var(--space-2xl) var(--space-xl);
+            }
 
-        .section-body {
-            padding: var(--space-xl);
-            animation: fadeIn 0.3s ease;
-        }
+            /* ============================================================
+            SCP HEADER BLOCK (Item #, Object Class)
+            ============================================================ */
+            .scp-header-block {
+                background: var(--bg-card);
+                border: 1px solid var(--border-subtle);
+                border-left: 4px solid var(--accent-euclid);
+                padding: var(--space-xl) var(--space-xl);
+                margin-bottom: var(--space-xl);
+                position: relative;
+                border-radius: 4px;
+            }
 
-        .section-body.collapsed {
-            display: none;
-        }
+            .scp-item-number {
+                font-family: var(--font-mono);
+                font-size: 28px;
+                font-weight: 700;
+                color: var(--text-heading);
+                margin-bottom: var(--space-md);
+                letter-spacing: 2px;
+            }
 
-        .section-body p {
-            margin-bottom: var(--space-md);
-            text-align: justify;
-            color: var(--text-primary);
-        }
+            .scp-object-class {
+                font-family: var(--font-mono);
+                font-size: 14px;
+                color: var(--accent-euclid);
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                font-weight: 600;
+            }
 
-        .section-body p:last-child {
-            margin-bottom: 0;
-        }
+            .scp-object-class::before {
+                content: 'Класс объекта: ';
+                color: var(--text-muted);
+                font-weight: 400;
+            }
 
-        .section-body ul {
-            margin: var(--space-md) 0 var(--space-md) var(--space-lg);
-            padding-left: var(--space-md);
-        }
+            /* ============================================================
+            SECTION HEADERS (Standard SCP format)
+            ============================================================ */
+            .scp-section-title {
+                font-family: var(--font-mono);
+                font-size: 13px;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: var(--text-heading);
+                font-weight: 600;
+                margin: var(--space-2xl) 0 var(--space-lg) 0;
+                padding-bottom: var(--space-sm);
+                border-bottom: 2px solid var(--accent-euclid);
+                display: flex;
+                align-items: center;
+                gap: var(--space-md);
+            }
 
-        .section-body li {
-            margin-bottom: var(--space-sm);
-            color: var(--text-primary);
-        }
+            .scp-section-title::before {
+                content: '';
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                background: var(--accent-euclid);
+                border-radius: 1px;
+            }
 
-        /* ============================================================
-           ADDENDUM TITLE
-           ============================================================ */
-        .addendum-title {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent-euclid);
-            font-weight: 600;
-            margin-bottom: var(--space-md);
-            padding-bottom: var(--space-sm);
-            border-bottom: 1px solid var(--border-subtle);
-        }
+            .scp-section-body {
+                margin-bottom: var(--space-xl);
+            }
 
-                /* ============================================================
-           AUTHOR WATERMARK
-           ============================================================ */
-        body::after {
-            content: 'AUTHOR: coup de grâce';
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-family: var(--font-mono);
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.03);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            pointer-events: none;
-            z-index: 9999;
-            user-select: none;
-        }
-    
-    </style>
-</head>
-<body>
-    <div class="security-banner">
-        | ЗОНА 03 - USAKUK-Site-03 |
-    </div>
+            .scp-section-body p {
+                margin-bottom: var(--space-md);
+                text-align: justify;
+                color: var(--text-primary);
+            }
 
-    <header class="scp-header">
-        <div class="header-inner">
-            <div class="scp-logo">
-                <div class="scp-logo-text">
-                    <h1>Фонд SCP</h1>
-                    <div class="subtitle">Secure. Contain. Protect.</div>
+            .scp-section-body p:last-child {
+                margin-bottom: 0;
+            }
+
+            .scp-section-body strong {
+                color: var(--text-heading);
+                font-weight: 700;
+            }
+
+            .scp-section-body ul {
+                margin: var(--space-md) 0 var(--space-md) var(--space-lg);
+                padding-left: var(--space-md);
+            }
+
+            .scp-section-body li {
+                margin-bottom: var(--space-sm);
+                color: var(--text-primary);
+            }
+
+            /* ============================================================
+            COLLAPSIBLE ADDENDA
+            ============================================================ */
+            .addendum {
+                background: var(--bg-card);
+                border: 1px solid var(--border-subtle);
+                margin-bottom: var(--space-lg);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+
+            .addendum-header {
+                background: var(--bg-elevated);
+                padding: var(--space-md) var(--space-lg);
+                border-bottom: 1px solid var(--border-subtle);
+                display: flex;
+                align-items: center;
+                gap: var(--space-md);
+                cursor: pointer;
+                transition: background 0.2s ease;
+                user-select: none;
+            }
+
+            .addendum-header:hover {
+                background: #2a2a32;
+            }
+
+            .addendum-header .icon {
+                width: 26px;
+                height: 26px;
+                background: var(--accent-euclid);
+                border-radius: 3px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                color: #fff;
+                flex-shrink: 0;
+                font-weight: 500;
+            }
+
+            .addendum-header h3 {
+                font-family: var(--font-mono);
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                color: var(--text-heading);
+                font-weight: 500;
+            }
+
+            .addendum-header .toggle {
+                margin-left: auto;
+                font-size: 14px;
+                color: var(--text-muted);
+                transition: transform 0.25s ease;
+                font-family: var(--font-mono);
+            }
+
+            .addendum-header.collapsed .toggle {
+                transform: rotate(-90deg);
+            }
+
+            .addendum-body {
+                padding: var(--space-xl);
+                animation: fadeIn 0.3s ease;
+            }
+
+            .addendum-body.collapsed {
+                display: none;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-4px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+
+            /* ============================================================
+            REDACTED / EXPUNGED
+            ============================================================ */
+            .redacted {
+                background: #0a0a0c;
+                color: transparent;
+                padding: 1px 5px;
+                border-radius: 2px;
+                cursor: help;
+                transition: all 0.2s ease;
+                border: 1px solid #1a1a1e;
+            }
+
+            .redacted:hover {
+                background: var(--accent-red-dim);
+                color: rgba(255,255,255,0.9);
+                border-color: var(--accent-red);
+            }
+
+            .data-expunged {
+                background: repeating-linear-gradient(
+                    90deg,
+                    #0a0a0c,
+                    #0a0a0c 4px,
+                    #141418 4px,
+                    #141418 8px
+                );
+                color: var(--text-muted);
+                padding: 2px 8px;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                border-radius: 2px;
+                letter-spacing: 1px;
+            }
+
+            /* ============================================================
+            WARNING BOX
+            ============================================================ */
+            .warning-box {
+                background: rgba(192, 57, 43, 0.06);
+                border: 1px solid rgba(192, 57, 43, 0.25);
+                border-left: 3px solid var(--accent-red);
+                padding: var(--space-lg) var(--space-xl);
+                margin: var(--space-lg) 0;
+                position: relative;
+                border-radius: 0 4px 4px 0;
+            }
+
+            .warning-box::before {
+                content: '!';
+                position: absolute;
+                top: -10px;
+                left: 14px;
+                background: var(--accent-red-dim);
+                color: #fff;
+                font-size: 12px;
+                width: 22px;
+                height: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                font-family: var(--font-mono);
+                font-weight: 700;
+            }
+
+            .warning-box strong {
+                color: var(--accent-red);
+                font-family: var(--font-mono);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-size: 11px;
+            }
+
+            /* ============================================================
+            NOTICE BOX
+            ============================================================ */
+            .notice-box {
+                background: rgba(74, 144, 217, 0.04);
+                border: 1px solid rgba(74, 144, 217, 0.18);
+                border-left: 3px solid var(--accent-blue);
+                padding: var(--space-lg) var(--space-xl);
+                margin: var(--space-lg) 0;
+                border-radius: 0 4px 4px 0;
+            }
+
+            .notice-title {
+                font-family: var(--font-mono);
+                font-size: 11px;
+                color: var(--accent-blue);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                margin-bottom: var(--space-md);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .notice-title::before {
+                content: '*';
+            }
+
+            /* ============================================================
+            QUOTE BLOCK
+            ============================================================ */
+            .quote-block {
+                background: rgba(255, 255, 255, 0.025);
+                border-left: 3px solid var(--border-medium);
+                padding: var(--space-lg) var(--space-xl);
+                margin: var(--space-lg) 0;
+                font-style: italic;
+                position: relative;
+                border-radius: 0 4px 4px 0;
+            }
+
+            .quote-block::before {
+                content: '"';
+                position: absolute;
+                top: 4px;
+                left: 12px;
+                font-size: 36px;
+                color: var(--border-medium);
+                font-family: Georgia, serif;
+                line-height: 1;
+            }
+
+            .quote-author {
+                margin-top: var(--space-md);
+                font-style: normal;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                color: var(--text-muted);
+            }
+
+            .quote-author::before {
+                content: '- ';
+            }
+
+            /* ============================================================
+            INCIDENT TABLE
+            ============================================================ */
+            .incident-table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                margin: var(--space-lg) 0;
+                font-size: 14px;
+                border-radius: 4px;
+                overflow: hidden;
+            }
+
+            .incident-table th {
+                background: var(--bg-elevated);
+                font-family: var(--font-mono);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                color: var(--text-muted);
+                padding: var(--space-md) var(--space-lg);
+                text-align: left;
+                border-bottom: 2px solid var(--border-medium);
+                font-weight: 500;
+            }
+
+            .incident-table td {
+                padding: var(--space-md) var(--space-lg);
+                border-bottom: 1px solid var(--border-subtle);
+                vertical-align: top;
+                color: var(--text-primary);
+                line-height: 1.6;
+            }
+
+            .incident-table tr:last-child td {
+                border-bottom: none;
+            }
+
+            .incident-table tr:hover td {
+                background: rgba(255, 255, 255, 0.015);
+            }
+
+            .incident-tag {
+                display: inline-block;
+                padding: 3px 10px;
+                font-family: var(--font-mono);
+                font-size: 9px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                border-radius: 2px;
+                margin-right: 4px;
+                font-weight: 500;
+            }
+
+            .tag-critical { background: rgba(231, 76, 60, 0.12); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.3); }
+            .tag-major    { background: rgba(230, 126, 34, 0.12); color: #e67e22; border: 1px solid rgba(230, 126, 34, 0.3); }
+            .tag-minor    { background: rgba(46, 204, 113, 0.10); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.25); }
+
+            /* ============================================================
+            TERMINAL
+            ============================================================ */
+            .terminal-container {
+                background: var(--bg-terminal);
+                border: 1px solid var(--border-subtle);
+                border-radius: 4px;
+                margin: var(--space-lg) 0;
+                overflow: hidden;
+            }
+
+            .terminal-header {
+                background: var(--bg-elevated);
+                padding: 8px 14px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+
+            .terminal-dot {
+                width: 9px;
+                height: 9px;
+                border-radius: 50%;
+                display: inline-block;
+            }
+
+            .terminal-dot.red    { background: var(--accent-red); }
+            .terminal-dot.yellow { background: var(--accent-amber); }
+            .terminal-dot.green  { background: var(--accent-green); }
+
+            .terminal-title {
+                font-family: var(--font-mono);
+                font-size: 10px;
+                color: var(--text-muted);
+                margin-left: 8px;
+                letter-spacing: 1px;
+            }
+
+            .terminal-body {
+                padding: var(--space-md) var(--space-lg);
+                font-family: var(--font-mono);
+                font-size: 12px;
+                line-height: 1.8;
+                color: var(--accent-green);
+            }
+
+            .terminal-line {
+                margin: 4px 0;
+            }
+
+            .terminal-line .prompt {
+                color: var(--accent-red);
+            }
+
+            /* ============================================================
+            INFO GRID
+            ============================================================ */
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: var(--space-md);
+                margin-bottom: var(--space-xl);
+            }
+
+            .info-box {
+                background: var(--bg-card);
+                border: 1px solid var(--border-subtle);
+                padding: var(--space-md) var(--space-lg);
+                border-radius: 4px;
+                transition: background 0.2s ease, border-color 0.2s ease;
+            }
+
+            .info-box:hover {
+                background: var(--bg-card-hover);
+                border-color: var(--border-medium);
+            }
+
+            .info-box .label {
+                font-family: var(--font-mono);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: var(--text-muted);
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .info-box .label::before {
+                content: '>';
+                color: var(--accent-euclid);
+                font-size: 9px;
+            }
+
+            .info-box .value {
+                font-size: 15px;
+                color: var(--text-primary);
+                line-height: 1.5;
+            }
+
+            .info-box .value.highlight {
+                color: var(--accent-green);
+                font-weight: 600;
+                font-family: var(--font-ui);
+            }
+
+            /* ============================================================
+            CLEARANCE BANNER
+            ============================================================ */
+            .clearance-banner {
+                background: linear-gradient(90deg, var(--accent-red-dim), #5c1a14, var(--accent-red-dim));
+                background-size: 200% 100%;
+                animation: gradient-shift 4s ease infinite;
+                padding: 10px;
+                text-align: center;
+                font-family: var(--font-mono);
+                font-size: 12px;
+                font-weight: 600;
+                color: rgba(255,255,255,0.9);
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                margin-bottom: var(--space-lg);
+                border: 1px solid rgba(192, 57, 43, 0.4);
+                border-radius: 4px;
+            }
+
+            @keyframes gradient-shift {
+                0%   { background-position: 0% 50%; }
+                50%  { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+
+            /* ============================================================
+            FOOTER
+            ============================================================ */
+            .scp-footer {
+                background: var(--bg-card);
+                border-top: 1px solid var(--border-subtle);
+                padding: var(--space-xl);
+                text-align: center;
+                margin-top: var(--space-2xl);
+            }
+
+            .scp-footer .footer-line {
+                font-family: var(--font-mono);
+                font-size: 10px;
+                color: var(--text-muted);
+                letter-spacing: 1px;
+                margin-bottom: 6px;
+                line-height: 1.6;
+            }
+
+            .scp-footer .footer-classified {
+                color: var(--accent-red);
+                font-weight: 500;
+                margin-top: var(--space-md);
+                padding-top: var(--space-md);
+                border-top: 1px solid var(--border-subtle);
+            }
+
+            /* ============================================================
+            SCROLLBAR
+            ============================================================ */
+            ::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: var(--bg-page);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: var(--border-medium);
+                border-radius: 3px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--text-muted);
+            }
+
+            /* ============================================================
+            RESPONSIVE
+            ============================================================ */
+            @media (max-width: 768px) {
+                .header-inner {
+                    flex-direction: column;
+                    text-align: center;
+                    padding: var(--space-md);
+                }
+
+                .scp-nav {
+                    justify-content: center;
+                    gap: var(--space-md);
+                }
+
+                .scp-item-number {
+                    font-size: 22px;
+                }
+
+                .main-container {
+                    padding: var(--space-lg) var(--space-md);
+                }
+
+                .scp-section-body,
+                .addendum-body {
+                    padding: var(--space-md);
+                }
+
+                body {
+                    font-size: 16px;
+                }
+            }
+
+            /* ============================================================
+            UTILITY
+            ============================================================ */
+            .text-accent { color: var(--accent-euclid); font-weight: 600; }
+
+            /* ============================================================
+            OBJECT HEADER
+            ============================================================ */
+            .object-header {
+                background: var(--bg-card);
+                border: 1px solid var(--border-subtle);
+                border-left: 4px solid var(--accent-euclid);
+                padding: var(--space-xl) var(--space-xl);
+                margin-bottom: var(--space-xl);
+                border-radius: 4px;
+                text-align: center;
+            }
+
+            .object-number {
+                font-family: var(--font-mono);
+                font-size: 13px;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                margin-bottom: var(--space-sm);
+            }
+
+            .object-name {
+                font-family: var(--font-ui);
+                font-size: 24px;
+                color: var(--text-heading);
+                font-weight: 600;
+            }
+
+            /* ============================================================
+            COLLAPSIBLE SECTIONS
+            ============================================================ */
+            .section {
+                background: var(--bg-card);
+                border: 1px solid var(--border-subtle);
+                margin-bottom: var(--space-lg);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+
+            .section-header {
+                background: var(--bg-elevated);
+                padding: var(--space-md) var(--space-lg);
+                border-bottom: 1px solid var(--border-subtle);
+                display: flex;
+                align-items: center;
+                gap: var(--space-md);
+                cursor: pointer;
+                transition: background 0.2s ease;
+                user-select: none;
+            }
+
+            .section-header:hover {
+                background: #2a2a32;
+            }
+
+            .section-header .icon {
+                width: 26px;
+                height: 26px;
+                background: var(--accent-euclid);
+                border-radius: 3px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                color: #fff;
+                flex-shrink: 0;
+                font-weight: 500;
+            }
+
+            .section-header h2 {
+                font-family: var(--font-mono);
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                color: var(--text-heading);
+                font-weight: 500;
+            }
+
+            .section-header .toggle {
+                margin-left: auto;
+                font-size: 14px;
+                color: var(--text-muted);
+                transition: transform 0.25s ease;
+                font-family: var(--font-mono);
+            }
+
+            .section-header.collapsed .toggle {
+                transform: rotate(-90deg);
+            }
+
+            .section-body {
+                padding: var(--space-xl);
+                animation: fadeIn 0.3s ease;
+            }
+
+            .section-body.collapsed {
+                display: none;
+            }
+
+            .section-body p {
+                margin-bottom: var(--space-md);
+                text-align: justify;
+                color: var(--text-primary);
+            }
+
+            .section-body p:last-child {
+                margin-bottom: 0;
+            }
+
+            .section-body ul {
+                margin: var(--space-md) 0 var(--space-md) var(--space-lg);
+                padding-left: var(--space-md);
+            }
+
+            .section-body li {
+                margin-bottom: var(--space-sm);
+                color: var(--text-primary);
+            }
+
+            /* ============================================================
+            ADDENDUM TITLE
+            ============================================================ */
+            .addendum-title {
+                font-family: var(--font-mono);
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: var(--accent-euclid);
+                font-weight: 600;
+                margin-bottom: var(--space-md);
+                padding-bottom: var(--space-sm);
+                border-bottom: 1px solid var(--border-subtle);
+            }
+
+                    /* ============================================================
+            AUTHOR WATERMARK
+            ============================================================ */
+            body::after {
+                content: 'AUTHOR: coup de grâce';
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                font-family: var(--font-mono);
+                font-size: 10px;
+                color: rgba(255, 255, 255, 0.03);
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                pointer-events: none;
+                z-index: 9999;
+                user-select: none;
+            }
+        
+        </style>
+    </head>
+    <body>
+        <div class="security-banner">
+            | USAKUK-Site-03 |
+        </div>
+
+        <header class="scp-header">
+            <div class="header-inner">
+                <div class="scp-logo">
+                    <div class="scp-logo-text">
+                        <h1>SCP Foundation</h1>
+                        <div class="subtitle">Secure. Contain. Protect.</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <main class="main-container">
+        <main class="main-container">
         
         <div class="scp-header-block">
-            <div class="scp-item-number">SCP-2741-L-RU</div>
+            <div class="scp-item-number">SCP-2741-RU - "Кристалл"</div>
             <div class="scp-object-class">Евклид</div>
         </div>
-            <div class="info-box">
-                <div class="label">Руководитель исследований</div>
-                <div class="value">Д-р Энтони Гибсон</div>
-            </div>
-            <div class="info-box">
-                <div class="label">Уровень угрозы</div>
-                <div class="value">Белый</div>
-            </div>
-            <div class="info-box">
-                <div class="label">Минимальный уровень допуска</div>
-                <div class="value">2</div>
-            </div>
-        </div>
+
+       <div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="icon">01</div>
+        <h2>Особые условия содержания</h2>
+        <span class="toggle">v</span>
+    </div>
+    <div class="section-body">
+        <p>SCP-2741 содержится в стандартной гуманоидной камере типа C-2.</p>
+
+        <p>После каждого акта регенерации SCP-2741 подвергается медицинскому осмотру. Еженедельная психологическая оценка обязательна. При выявлении признаков агрессии, мании самоуничтожения или попыток манипулирования персоналом объект переводится в режим психологической изоляции с сокращением рациона и запретом на прогулки.</p>
+
+        <p>SCP-2741 допускается к прогулкам исключительно по административной зоне длительностью от 2 до 5 часов в сопровождении 2 агентов СБ. Во время прогулок SCP-2741 обязан носить наручники с цепью длиной 60 см, фиксирующие запястья за спиной.</p>
+
+        <p>SCP-2741 обязан носить на правой лодыжке модифицированный медицинский GPS-браслет. Браслет устойчив к механическим воздействиям. Встроенные датчики фиксируют пульс, температуру кожи, уровень кислорода в крови и местоположение объекта. Браслет подлежит ежедневной проверке исправности.</p>
+
+        <p>Рацион объекта составляется с учётом повышенной калорийности. Базовый рацион включает 4200-4800 ккал/сутки с повышенным содержанием белка и углеводов. При проведении актов регенерации рацион увеличивается на ~1500 ккал.</p>
+        
+        <ul>
+            <li>активация аномалии возможна только при прямом контакте с кожей субъекта;</li>
+            <li>персонал обязан запрашивать у SCP-2741 информацию о соматических ощущениях;</li>
+            <li>объект обязан соблюдать установленный рацион без исключений.</li>
+        </ul>
+
+        <p>Активация аномалии происходит только при сознательном решении. SCP-2741 демонстрирует полный контроль над процессом: способен выбирать, какие ткани регенерировать, в каком объёме и с какой интенсивностью.</p>
+    </div>
+</div>
 
         <div class="section">
-            <div class="section-header" onclick="toggleSection(this)">
-                <div class="icon">01</div>
-                <h2>Особые условия содержания</h2>
-                <span class="toggle">v</span>
-            </div>
-            <div class="section-body">
-                <p>SCP-2741 содержится в стандартной гуманоидной камере типа C-2 блока 03-Чарли. Камера оборудована медицинским блоком для проведения санкционированных процедур.</p>
-                <p><strong>Примечание:</strong> SCP-2741 вправе запросить выход на прогулку по территории блока 03-Чарли в любое время суток. Решение о необходимости сопровождения агентами СБ принимается командиром внутреннего подразделения службы безопасности. В штатных условиях, при стабильном состоянии объекта и отсутствии чрезвычайных ситуаций в секторе, прогулки могут проводиться без непосредственного сопровождения - под дистанционным наблюдением системы видеонаблюдения блока.</p>
-                <p>При взаимодействии с SCP-2741 персонал обязан соблюдать следующие протоколы:</p>
-                
-                <ul>
-                    <li>активация аномалии возможна <strong>только при прямом контакте с кожей субъекта</strong>. Для предотвращения несанкционированной активации SCP-2741 обязан носить изолирующие перчатки класса III-A (аномально-стойкие) во всех ситуациях, не связанных с санкционированным медицинским вмешательством;</li>
-                    <li>любые изменения в физиологическом состоянии SCP-2741 должны быть немедленно задокументированы и переданы д-ру Алексу Медицинову;</li>
-                    <li>SCP-2741 обязан сообщать о любых соматических ощущениях, выходящих за рамки нормы, в течение 15 минут.</li>
-                </ul>
-                
-                <p><strong>Дополнительные ограничения:</strong> активация аномалии происходит <strong>только при сознательном решении объекта</strong>. SCP-2741 демонстрирует полный контроль над процессом: способен выбирать, какие ткани регенерировать, в каком объеме и с какой интенсивностью. Однако при длительном физическом контакте (более 90 секунд) с поврежденными тканями аномалия начинает протекать автономно, вне зависимости от воли объекта. Именно поэтому перчатки являются обязательным элементом экипировки, а не мерой гигиены.</p>
-            </div>
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="icon">02</div>
+        <h2>Описание</h2>
+        <span class="toggle">v</span>
+    </div>
+    <div class="section-body">
+        <p>SCP-2741 - гуманоид мужского пола, 29 лет, рост 176 см, вес 63 кг. Обнаружен 7 ноября 2017 года в городе ███████, Аляска. До захвата Фондом работал фельдшером скорой помощи.</p>
+        
+        <div class="addendum-title">Физиологические признаки</div>
+
+        <p>Объект демонстрирует следующие аномальные физиологические признаки:</p>
+
+        <ul>
+            <li>гетерохромия зрачков: левый зрачок демонстрирует изменение диаметра при активации аномалии. При регенерации чужеродных тканей оба зрачка расширяются несимметрично, склеры приобретают зеленоватый оттенок, сохраняющийся 10-15 минут после контакта;</li>
+            <li>плотность мышечных волокон возрастает за счёт замещения межклеточного матрикса кристаллическими включениями B-1. Сила сжатия значительно превышает норму для массы тела. Кожа демонстрирует повышенную прозрачность в условиях низкой освещённости - просвечивают вены и кристаллические прожилки.</li>
+        </ul>
+
+        <div class="addendum-title">Кристаллические наросты B-1</div>
+
+        <p>Каждый акт регенерации чужеродных тканей вызывает образование твёрдых кристаллических образований на теле объекта. На текущий момент зафиксировано 15 скоплений различной локализации. Ключевые образования:</p>
+
+        <ul>
+            <li>правое предплечье: три образования диаметром 0,5-1,2 см, расположенные линейно от локтевого сгиба к запястью. Кристаллы полупрозрачные, голубоватого оттенка;</li>
+            <li>левая лопатка: одно образование размером 2,8×1,9 см, форма неправильного многогранника. При контакте с водой кристалл излучает холодный белый свет, интенсивность которого коррелирует с временем, прошедшим с последнего акта регенерации;</li>
+            <li>спина, левое бедро, левая грудная клетка: образования тёмного цвета с фиолетовым отливом, возникшие после инцидента 2741-TRM. Повышенная плотность, ускоренный рост. Объект испытывает боль в зонах тёмных наростов, периодически усиливающейся до приступов острой боли;</li>
+            <li>левое запястье: нарост 0,7 см, фиолетового оттенка. Ограничивает подвижность лучезапястного сустава на 15°.</li>
+        </ul>
+
+        <p>Прочие наросты локализованы на правой ключице, подбородке, правой стопе.</p>
+
+        <p>Гистологический анализ образцов B-1 показал, что кристаллы состоят из гибридной органо-минеральной матрицы неустановленного состава. Кристаллы не поддаются механическому удалению без повреждения окружающих тканей и демонстрируют способность к медленному росту.</p>
+
+        <div class="addendum-title">Аномальные свойства</div>
+
+        <p>Основное аномальное свойство объекта заключается в способности к <span class="text-accent">биологической регенерации чужеродных тканей</span> через прямой физический контакт. При соприкосновении с повреждёнными тканями другого организма клетки SCP-2741 выделяют неидентифицированный ферментный комплекс (временное обозначение: FC-01), который стимулирует ускоренную регенерацию повреждённых тканей с коэффициентом ускорения от 8× до 47× по сравнению с естественной регенерацией.</p>
+
+        <p>Проявления аномалии включают:</p>
+
+        <ul>
+            <li>поверхностные повреждения: ссадины, царапины, мелкие порезы - заживление за 8-15 секунд;</li>
+            <li>колото-резаные раны: треугольный раневой канал с режущей кромкой - заживление за 60-120 секунд;</li>
+            <li>огнестрельные раны: проникающие и непроникающие, включая повреждения от осколков - заживление за 8-12 минут. Извлечение инородных тел не требуется, FC-01 вытесняет остатки снаряда вместе с некротическими тканями.</li>
+        </ul>
+
+        <p>Ферментный комплекс FC-01 способен денатурировать и вытеснять некротические, заражённые аномальными патогенами или онкологически изменённые ткани, заменяя их здоровыми аналогами. Однако данный процесс требует больших энергетических затрат и значительно ускоряет рост кристаллов.</p>
+        <p>Объект демонстрирует стабильное психологическое состояние при стандартном тестировании. Объект испытывает хронический болевой синдром, локализованный в зонах кристаллических скоплений. По заявлению объекта, интенсивность боли коррелирует с частотой активации аномалии.</p>
+        <p>При попытке активации аномалии на организме без повреждений тканей процесс регенерации не инициируется. Однако FC-01 продолжает циркулировать в организме SCP-2741 без целевого выхода, что приводит к обратной реакции: ускоренному росту кристаллов внутри тканей самого объекта. Фиксируется увеличение объёма существующих образований. Объект испытывает острую боль в зонах кристаллических скоплений, сопровождающуюся лихорадкой до 39,5°C и мышечными спазмами. Состояние нормализуется через 6-8 часов.</p>
         </div>
 
+    </div>
+</div>
+
         <div class="section">
-            <div class="section-header" onclick="toggleSection(this)">
-                <div class="icon">02</div>
-                <h2>Описание</h2>   
-                <span class="toggle">v</span>
-            </div>
-            <div class="section-body">
-                <p>SCP-2741 - гуманоид мужского пола, 29 лет, рост 176 см, вес 63 кг. Объект обнаружен 7 ноября 2017 года в городе ███████, Аляска, в ходе оперативного реагирования на аномальную активность.</p>
-                
-                <p>Проявления аномалии включают:</p>
-                
-                <ul>
-                    <li><strong>ускоренное заживление ран:</strong> поверхностные порезы заживают за 15-30 секунд, глубокие тканевые повреждения - за 2-5 минут.</li>
-                    <li><strong>регенерация органов:</strong> при прямом контакте объекта с поврежденным органом наблюдается восстановление функциональности органа в течение 12-48 часов. Полная регенерация утраченной конечности на текущий момент не зафиксирована - максимальный зарегистрированный результат: восстановление 73% массы утраченной ткани при контакте длительностью 4 часа 12 минут.</li>
-                    <li><strong>удаление зараженных тканей:</strong> ферментный комплекс способен денатурировать и вытеснять некротические, зараженные аномальными патогенами или онкологически измененные ткани, заменяя их здоровыми аналогами. Однако данный процесс требует значительно больших энергетических затрат и ускоряет рост кристаллов B-1 в 1,8-2,3 раза.</li>
-                    <li><strong>нейтрализация токсинов:</strong> ферментный комплекс способен денатурировать широкий спектр биологических токсинов, включая аномальные.</li>
-                    <li><strong>подавление аномальных инфекций:</strong> при контакте с тканями, зараженными аномальными патогенами, наблюдается полное уничтожение патогена в 73% случаев.</li>
-                </ul>
-        </div>
-         </div>
-        <div class="section">
-            <div class="section-header" onclick="toggleSection(this)">
-                <div class="icon">03</div>
-                <h2>Журнал инцидентов</h2>
-                <span class="toggle">v</span>
-            </div>
-            <div class="section-body">
-                <table class="incident-table">
-                    <thead>
-                        <tr>
-                            <th>Дата</th>
-                            <th>Инцидент</th>
-                            <th>Последствия</th>
-                            <th>Класс</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>14.03.2018</td>
-                            <td>SCP-2741 провел регенерацию тканей субъекта D-8432 после контакта с █████. Субъект полностью восстановлен.</td>
-                            <td>Сформирован первый кристаллический нарост B-1 на правом предплечье объекта (диаметр 0,3 см). Проведен дополнительный медосмотр.</td>
-                            <td><span class="incident-tag tag-minor">Минор</span></td>
-                        </tr>
-                        <tr>
-                            <td>09.07.2019</td>
-                            <td>Во время нарушения условий содержания SCP-███ в Зоне тяжелого содержания блока "03-Чарли" пострадали 4 агента СБ. SCP-2741 провел экстренную регенерацию по прямому приказу д-ра Медицинова.</td>
-                            <td>Все 4 агента выжили. Образовано 2 новых нароста B-1 на правом предплечье объекта (0,8 и 1,2 см). SCP-2741 находился в бессознательном состоянии 18 часов. По пробуждении отмечено онемение кожи в зоне наростов.</td>
-                            <td><span class="incident-tag tag-major">Мажор</span></td>
-                        </tr>
-                        <tr>
-                            <td>22.11.2020</td>
-                            <td>Попытка несанкционированного взятия образца крови SCP-2741 сотрудником ██████. Образец начал агрессивную регенерацию в пробирке, приведшую к разрушению контейнера.</td>
-                            <td>Утечка нейтрализована. Сотрудник ██████ отстранен от должности. Задействован дополнительный способ хранения образцов. SCP-2741 не применял аномалию - наростов не добавилось.</td>
-                            <td><span class="incident-tag tag-major">Мажор</span></td>
-                        </tr>
-                        <tr>
-                            <td>03.05.2022</td>
-                            <td>По санкции Совета O5 проведена экспериментальная регенерация тканей, пораженных аномальным патогеном класса ████. Патоген полностью уничтожен.</td>
-                            <td>Открыт потенциал применения SCP-2741 для нейтрализации биологических аномалий. Образован крупный нарост B-1 на левой лопатке объекта (2,8x1,9 см). Нарост демонстрирует способность к слабому фосфоресцированию при контакте с водой.</td>
-                            <td><span class="incident-tag tag-critical">Критический</span></td>
-                        </tr>
-                        <tr>
-                            <td>18.01.2024</td>
-                            <td>SCP-2741 провел 6 актов регенерации в течение 48 часов во время массового инцидента в секторе "03-Чарли".</td>
-                            <td>Объект впал в кому на 72 часа. По пробуждении зафиксировано образование кластера из 5 наростов B-1 на правой ключице (0,3-0,7 см) и одного нароста под подбородком (0,4 см). Введено ограничение: не более 2 актов регенерации в неделю. Общая площадь кристаллических образований достигла ██ см2.</td>
-                            <td><span class="incident-tag tag-critical">Критический</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="icon">03</div>
+        <h2>Приложение 2741-1: Обнаружение</h2>
+        <span class="toggle">v</span>
+    </div>
+    <div class="section-body">
+        <p>SCP-2741 был обнаружен 7 ноября 2017 года в ходе оперативного реагирования на аномальную активность в городе ███████, Аляска. Местные медицинские учреждения зафиксировали серию необъяснимых случаев выздоровления пациентов с терминальными диагнозами после контакта с фельдшером скорой помощи Алланом Блэйком.</p>
+
+        <p>3 ноября 2017 года зафиксирован случай полного выздоровления пациента с проникающими ранениями грудной клетки после 45-минутного контакта с фельдшером Блэйком.</p>
+
+        <p>Агенты Фонда провели стандартную процедуру захвата. Объект был помещён под медицинский карантин. После проведения полного медицинского обследования и анализа аномальных проявлений объект был переведён в Зону 03 для длительного содержания.</p>
+
+        <p>В ходе интервью установлено, что Блэйк осознаёт своё аномальное влияние с 2014 года, когда во время стажировки в ███████ он спонтанно вылечил черепно-мозговую травму у коллеги. Объект не оказывал сопротивления при захвате. Мотивы пассивного поведения не установлены.</p>
+    </div>
 </div>
         <div class="section">
-            <div class="section-header" onclick="toggleSection(this)">
-                <div class="icon">04</div>
-                <h2>Приложение - Профиль</h2>
-                <span class="toggle">v</span>
-            </div>
-            <div class="section-body">
-                <div class="info-grid">
-                    <div class="info-box">
-                        <div class="label">Полное имя</div>
-                        <div class="value">Аллан Блэйк</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="label">Дата рождения</div>
-                        <div class="value">14 марта 1997 года</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="label">Место рождения</div>
-                        <div class="value">███████, Аляска, США</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="label">Образование</div>
-                        <div class="value">Среднее медицинское (фельдшер), ███████ колледж</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="label">Дата захвата Фондом</div>
-                        <div class="value">7 ноября 2017 года</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="label">Текущий статус</div>
-                        <div class="value highlight">Содержится / сотрудничает</div>
-                    </div>
-                </div>
-                    <p>SCP-2741 зарекомендовал себя как субъект с высоким уровнем самообладания в кризисных ситуациях и выраженной готовностью к самопожертвованию ради спасения других. Психологическое состояние стабильно, хотя наблюдается тенденция к эмоциональному выгоранию, связанная с осознанием ограниченности собственного биологического ресурса.</p>
-                    
-                    <p>Объект демонстрирует высокий уровень кооперативности и осознает риски, связанные с чрезмерным использованием аномалии. Рекомендуется регулярная психологическая поддержка и строгое ограничение количества актов регенерации в неделю. SCP-2741 выразил готовность к дальнейшему сотрудничеству с Фондом при условии соблюдения установленных протоколов безопасности.</p>
-                </div>
-            </div>
-        </div>      
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="icon">04</div>
+        <h2>Приложение 2741-2: Эксперименты</h2>
+        <span class="toggle">v</span>
+    </div>
+    <div class="section-body">
+        <table class="incident-table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Эксперимент</th>
+                    <th>Результат</th>
+                    <th>Класс</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>14.03.2018</td>
+                    <td>Регенерация поверхностного пореза на предплечье субъекта D-8432. Контакт длительностью 12 секунд.</td>
+                    <td>Заживление за 9 секунд. Сформирован первый кристаллический нарост B-1 на правом предплечье объекта.</td>
+                    <td><span class="incident-tag tag-minor">Минор</span></td>
+                </tr>
+                <tr>
+                    <td>22.07.2018</td>
+                    <td>Регенерация ампутированной передней лапы кролика. Контакт длительностью 4 минуты.</td>
+                    <td>Полная регенерация костной ткани, мышц и когтей за 3 минуты 40 секунд. Образован нарост B-1 на левой ладони объекта.</td>
+                    <td><span class="incident-tag tag-minor">Минор</span></td>
+                </tr>
+                <tr>
+                    <td>09.07.2019</td>
+                    <td>Регенерация колото-резаной раны брюшной полости субъекта D-8741. Контакт длительностью 90 секунд.</td>
+                    <td>Заживление за 78 секунд. Регенерация печёночной ткани зафиксирована. Образовано 2 нароста B-1 на правом предплечье объекта.</td>
+                    <td><span class="incident-tag tag-major">Мажор</span></td>
+                </tr>
+                <tr>
+                    <td>03.11.2021</td>
+                    <td>Регенерация ожогов III степени свиньи. Контакт длительностью 12 минут.</td>
+                    <td>Полная эпителизация за 11 минут. Волосяной покров не восстановлен. Образован кластер из 3 наростов B-1 на правой стопе объекта.</td>
+                    <td><span class="incident-tag tag-major">Мажор</span></td>
+                </tr>
+                <tr>
+                    <td>12.05.2022</td>
+                    <td>Регенерация тканей субъекта D-9587, находившегося в терминальной стадии полиорганной недостаточности (почечная, печёночная, дыхательная). Акт регенерации продолжался 4 часа 12 минут.</td>
+                    <td>Субъект D-9587 признан полностью восстановленным. Объект впал в кому на 12 часов.</td>
+                    <td><span class="incident-tag tag-critical">Критический</span></td>
+                </tr>
+                <tr>
+                    <td>18.01.2024</td>
+                    <td>Серия из 6 актов регенерации в течение 48 часов. Субъекты: крысы - переломы конечностей, проникающие раны брюшной полости, травмы головы.</td>
+                    <td>Все животные восстановлены. Объект впал в кому на 72 часа. Зафиксировано образование кластера из 5 наростов на правой ключице и одного нароста под подбородком.</td>
+                    <td><span class="incident-tag tag-critical">Критический</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
         <div class="section">
-            <div class="section-header" onclick="toggleSection(this)">
-                <div class="icon">05</div>
-                <h2>Приложение - Решение Совета O5</h2>
-                <span class="toggle">v</span>
-            </div>
-            <div class="section-body">
-                <div class="clearance-banner">
-                    УРОВЕНЬ ДОПУСКА 4 - СОВЕРШЕННО СЕКРЕТНО
-                </div>
-                    <div class="addendum-title">Постановление Комитета по этике</div>
-                    <div class="quote-block">
-                        "Комитет одобряет решение об ограниченном сотрудничестве с объектом SCP-2741 при соблюдении следующих условий:
-                        <br><br>
-                        1. Объект не может быть использован в качестве одноразового ресурса. Каждый акт регенерации должен быть обоснован медицинской необходимостью и санкционирован не ниже заместителя директора по медицине.
-                        <br><br>
-                        2. Объект имеет право на отказ. Никакое принуждение к активации аномалии не допускается. Любое принудительное применение будет расцениваться как нарушение прав гуманоида и преследоваться по всей строгости протоколов Фонда.
-                        <br><br>
-                        3. Объект имеет право на психологическую поддержку, медицинское обслуживание и социальную адаптацию. Его статус как субъекта содержания не отменяет его статуса как человека.
-                        <br><br>
-                        4. При достижении 10% кристаллизации тела Комитет по этике инициирует экстренное заседание с целью пересмотра условий содержания. Приоритет: сохранение жизни и здоровья объекта.
-                        <br><br>
-                        5. Любые исследования, связанные с извлечением образцов тканей, крови или кристаллов B-1, проводятся только с письменного согласия объекта и под наблюдением представителя Комитета по этике.
-                        <br><br>
-                        Комитет по этике будет осуществлять постоянный мониторинг условий содержания объекта и готов вмешаться в случае нарушения вышеуказанных положений."
-                        <div class="quote-author">Председатель Комитета по Этике, Зона 01</div>
-                    </div>
-                    <div class="warning-box">
-                    <strong>Примечание для персонала с уровнем допуска 4:</strong> решение Совета O5 и постановление Комитета по этике являются обязательными для исполнения всеми сотрудниками Зоны 03. Любое нарушение условий содержания объекта USAKUK-Site-03/████-A, включая несанкционированное принуждение к активации аномалии, попытку извлечения образцов без согласия или угрозу физической расправы, карается немедленным отстранением от должности и передачей в распоряжение Отдела внутренней безопасности. Объект находится под защитой Совета O5. Забудьте об этом - на свой страх и риск.
-                </div>
-            </div>
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="icon">05</div>
+        <h2>Приложение 2741-3: инцидент 2741-TRM</h2>
+        <span class="toggle">v</span>
+    </div>
+    <div class="section-body">
+        <p><strong>Дата:</strong> 14 сентября 2023 года<br>
+        <strong>Место:</strong> Блок 03-Чарли, Административная зона<br>
+        <strong>Статус:</strong> расследование закрыто</p>
+        
+        <p>14 сентября 2023 года агент █████, находившийся под аномальным воздействием, применил служебный нож, причинив объекту множественные проникающие ранения правой руки и бедра.</p>
+        
+        <p>SCP-2741 был обнаружен в коридоре спустя 6 минут после инцидента. Раненый SCP-2741 находился в сознании, сжимая раны ладонью и демонстрируя признаки глубокого шока. Собственная аномалия объекта запустила процесс регенерации повреждённых тканей. Агент █████ был нейтрализован сотрудниками СБ при попытке нападения.</p>
+    
+        <div class="warning-box">
+            <strong>Последствия:</strong> SCP-2741 полностью восстановлен за 47 минут. Однако в местах ранений образовались новые кристаллические наросты B-1, отличающиеся от всех предыдущих образований. Скопления имеют темный, почти черный цвет с фиолетовым отливом, повышенную плотность и демонстрируют ускоренный рост. Объект испытывает периодические приступы острой боли в зонах черных образований без установленной закономерности. Обезболивающие средства оказывают минимальный эффект.
+        </div>
+    </div>
+</div>
+    
+       <div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="icon">06</div>
+        <h2>Приложение 2741-4: инцидент 2741-LCB</h2>
+        <span class="toggle">v</span>
+    </div>
+    <div class="section-body">
+        <p><strong>Дата:</strong> 17 июня 2024 года<br>
+        <strong>Место:</strong> Блок 03-Чарли, Зона тяжёлого содержания<br>
+        <strong>Статус:</strong> расследование закрыто</p>
+        
+        <p>17 июня 2024 года в Зоне тяжёлого содержания Блока "03-Чарли" произошло локальное нарушение условий содержания объекта класса Кетер ███. В ходе операции по ликвидации объекта пострадали 3 агента СБ. Сержант Хэвок, командир звена быстрого реагирования, получил проникающее ранение брюшной полости и множественные осколочные повреждения правой ноги.</p>
+        
+        <p>После начала прогулки SCP-2741 был эвакуирован из зоны инцидента агентами, однако самостоятельно вернулся к месту происшествия. Объект провёл регенерацию сержанта и двух агентов в течение 34 минут. Третий боец скончался до прибытия SCP-2741.</p>
+        
+        <div class="quote-block">
+            "Он подошёл, положил руки на рану. Я почувствовал, как кожа начала тянуться изнутри. Было не больно... а жутко. Как будто что-то росло прямо внутри меня. Через минуту рана затянулась. Я не знаю, что это было, но спасибо ему не скажу. Это не лечение. Это что-то другое."
+            <div class="quote-author">Сержант Хэвок, агент службы безопасности Зоны 03, показания с камеры наблюдения Блока "03-Чарли"</div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="icon">07</div>
+        <h2>Приложение 2741-5: Инцидент 2741-AGR</h2>
+        <span class="toggle">v</span>
+    </div>
+    <div class="section-body">
+        <p><strong>Дата:</strong> 29 октября 2023 года<br>
+        <strong>Место:</strong> Блок 03-Чарли, Административная зона<br>
+        <strong>Статус:</strong> расследование закрыто</p>
+
+        <p>29 октября 2023 года в 14:17 SCP-2741 находился на санкционированной прогулке в сопровождении агентов СБ Моррисона и Уэйда.</p>
+
+        <p>В коридоре произошёл контакт со стороны уборщика Хейдвальда Гарсии. По данным камер наблюдения, Гарсия вышел из служебного помещения с ведром и шваброй, замедлил шаг при приближении к группе и остановился напротив SCP-2741. Агент Моррисон потребовал от Гарсии отойти, однако уборщик, не обращая внимания, произнёс с насмешкой: "Так это тот самый? Слушай, у меня спина болит, поможешь?" - после чего коснулся левого предплечья SCP-2741.</p>
+
+        <p>SCP-2741 нанёс удар лбом в лицо уборщика, после чего повалил его на пол и сжал руками горло. Агенты Моррисон и Уэйд не смогли вовремя отреагировать. После попытки применения электрошокера агент Уэйд обнаружил, что средство неактивно - предварительное расследование установило окисление контактов в результате попадания дезинфицирующего раствора при проверке оборудования. Агент Моррисон применил физическую силу, однако SCP-2741 не реагировал на удары в область рёбер.</p>
+
+        <p>Агент Моррисон применил удар ногой в бедро, в зоне кристаллического скопления, что вызвало потерю равновесия. Упав набок, SCP-2741 сохранял давление коленом на гортань Гарсии. Прибывший спустя минуту агент Хейнс использовал электрошокер и объект был обездвижен.</p>
+
+        <p>Уборщик Гарсия получил: перелом носа, сотрясение лёгкой степени, ушиб гортани с отёком, множественные ссадины лица. Госпитализирован на 6 суток. Переведён в другой сектор Зоны. Агент Моррисон - ушиб пальцев правой стопы. Агент Уэйд - дисциплинарное взыскание за непроверку исправности электрошокера. SCP-2741 - поверхностные ссадины лба и правого колена, зажившие самостоятельно.</p>
+
+        <div class="warning-box">
+            <strong>Обновление особых условий содержания:</strong> в связи с инцидентом 2741-AGR Особые Условия Содержания были пересмотрены. Во время прогулок SCP-2741 обязан носить наручники с цепью длиной 60 см, фиксирующие запястья за спиной.
         </div>
 
-                </div>
-                <div class="section">
-            <div class="section-header" onclick="toggleSection(this)">
-                <div class="icon">06</div>
-                <h2>Приложение - FC-01</h2>
-                <span class="toggle">v</span>
-            </div>
-            <div class="section-body">
-                <p><strong>Дата инициации:</strong> 12 января 2025 года<br>
-                <strong>Кодовое название:</strong> FC-01 "Корни"<br>
-                <strong>Руководитель проекта:</strong> Энтони Гибсон, заместитель директора по исследованиям Зоны 03<br>
-                <strong>Наблюдение:</strong> Совет O5, Комитет по этике<br>
-                <strong>Статус:</strong> фаза альфа - предварительные исследования</p>
+    </div>
+</div>
 
-                <p>В январе 2025 года по инициативе заместителя директора по исследованиям Энтони Гибсона запущен проект по изучению и потенциальной репликации аномальных свойств SCP-2741. Объект выразил готовность к активному сотрудничеству при условии сохранения контроля над собственным телом и правом вето на любую процедуру.</p>
+        <div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <div class="icon">08</div>
+        <h2>Приложение 2741-6: репликация FC-01</h2>
+        <span class="toggle">v</span>
+    </div>
+    <div class="section-body">
+        <p><strong>Дата инициации:</strong> 12 января 2025 года<br>
+        <strong>Кодовое название:</strong> FC-01 "Корни"<br>
+        <strong>Руководитель проекта:</strong> Энтони Гибсон, заместитель директора по исследованиям Зоны 03<br>
+        <strong>Наблюдение:</strong> Комитет по этике<br>
+        <p>В январе 2025 года по инициативе заместителя директора по исследованиям Энтони Гибсона запущен проект по изучению и потенциальной репликации аномальных свойств SCP-2741.</p>
 
-                <div class="notice-box">
-                    <div class="notice-title">Цели проекта:</div>
-                    <ul>
-                        <li>извлечение и стабилизация ферментного комплекса FC-01 вне организма объекта;</li>
-                        <li>разработка протокола замедления или остановки роста кристаллов B-1 без нарушения регенерационных способностей;</li>
-                        <li>синтез искусственного аналога FC-01 для применения в полевых условиях без привлечения SCP-2741.</li>
-                    </ul>
-                </div>
-
-                <p><strong>Текущий прогресс:</strong> на данный момент проект находится на самом раннем этапе. Исследовательская группа под руководством Гибсона завершила серию контролируемых биопсий поверхностных слоев наростов B-1 с правого предплечья объекта. Полученные образцы поддерживаются in vitro в условиях, максимально приближенных к физиологическим. Начаты предварительные попытки культивирования клеточной линии на основе эпителия, содержащего FC-01.</p>
-
-                <p>SCP-2741 участвует в проекте в качестве консультанта и донора биоматериала. Объект проявляет заинтересованность в результатах исследования, связывая персональную мотивацию с возможностью замедления собственной кристаллизации.</p>
-
-                <div class="warning-box">
-                    <strong>Ограничения фазы альфа:</strong> все процедуры проводятся исключительно под личным наблюдением Энтони Гибсона с параллельным мониторингом со стороны Совета O5 и Комитета по этике. Любое расширение протокола, включая глубокую биопсию, извлечение костных образцов или эксперименты с принудительной активацией аномалии, требует письменного согласия SCP-2741, утверждения Совета O5 и вето Комитета по этике. На текущий момент синтетический аналог FC-01 не создан. Прогнозируемый срок перехода к фазе бета - не ранее ████ года.
-                </div>
-
-                <div class="quote-block">
-                    "Мы стоим у черты, за которой либо научимся копировать чудо, либо поймем, что копировать его невозможно. Блэйк дает нам шанс. Я не собираюсь его упускать. Но и торопить события также не стану. Спешка убивает точность, а точность - единственное, что у нас есть."
-                    <div class="quote-author">Энтони Гибсон, заместитель директора по исследованиям Зоны 03, отчет за январь 2025</div>
-                </div>
-            </div>
+        <div class="notice-box">
+            <div class="notice-title">Первоначальные цели:</div>
+            <ul>
+                <li>извлечение и стабилизация ферментного комплекса FC-01 вне организма объекта;</li>
+                <li>разработка средств для замедления или остановки роста кристаллов без нарушения регенерационных способностей;</li>
+                <li>синтез искусственного аналога FC-01 для применения в полевых условиях без привлечения SCP-2741.</li>
+            </ul>
         </div>
 
-    </main>
+        <p><strong>Фаза альфа (январь - апрель 2025):</strong> исследовательская группа завершила серию контролируемых биопсий поверхностных слоёв наростов B-1. Полученные образцы поддерживались in vitro. Начаты попытки культивирования клеточной линии на основе эпителия, содержащего FC-01. Исследования продолжаются.</p>
 
+        <p>SCP-2741 участвовал в проекте в качестве донора биоматериала. Объект демонстрировал пассивное сопротивление отдельным процедурам.</p>
+    </div>
+</div>
+</main>
     <footer class="scp-footer">
         <div class="footer-line">ФОНД SCP - АЛЯСКИНСКОЕ УЧРЕЖДЕНИЕ ИССЛЕДОВАНИЯ, СОДЕРЖАНИЯ И РАЗРАБОТОК</div>
         <div class="footer-line">Идентификационный код: USAKUK-Site-03 | Расположение: вблизи реки Юкон, Юкон-Коюкук, штат Аляска, США</div>
@@ -1175,5 +1208,5 @@
         });
     </script>
 
-</body>
-</html>
+    </body>
+    </html>
